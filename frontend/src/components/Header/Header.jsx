@@ -1,8 +1,17 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import argentBankLogo from '../../assets/argentBankLogo.png'
+import React, { useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import argentBankLogo from '../../assets/argentBankLogo.png';
 
 function Header() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
+
+  const handleSignOut = () => {
+    setIsLoggedIn(false);
+  };
+
+  const isUserPage = location.pathname === '/user';
+
   return (
     <nav className="main-nav">
       <NavLink className="main-nav-logo" to="/">
@@ -13,13 +22,18 @@ function Header() {
         />
       </NavLink>
       <div>
-        <NavLink className="main-nav-item" to="/sign-in">
-          <i className="fa fa-user-circle"></i>
-          Sign In
-        </NavLink>
+        {isLoggedIn ? (
+          <button className="main-nav-item" onClick={handleSignOut}>
+            <i className="fa fa-user-circle"></i> Sign Out
+          </button>
+        ) : (
+          <NavLink className="main-nav-item" to="/sign-in">
+            <i className="fa fa-user-circle"></i> {isUserPage ? 'Sign Out' : 'Sign In'}
+          </NavLink>
+        )}
       </div>
     </nav>
   );
 }
 
-export default Header
+export default Header;

@@ -32,7 +32,7 @@ function router() {
         <Route path="/" element={<HeaderFooter />}>
           <Route index element={<Home />} />
           <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/about" element={<User />} />
+          <Route path="/user" element={<User />} />
         </Route>
       </Routes>
     </BrowserRouter>
