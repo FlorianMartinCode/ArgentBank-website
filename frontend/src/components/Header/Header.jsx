@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import argentBankLogo from '../../assets/argentBankLogo.png';
+import argentBankLogo from '../../assets/argentBankLogo.png'
 
 function Header() {
   return (

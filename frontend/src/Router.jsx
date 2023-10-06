@@ -11,6 +11,8 @@ import User from './page/User/User';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 
+import 'font-awesome/css/font-awesome.min.css';
+
 import "./main.css";
 
 function HeaderFooter() {
@@ -29,7 +31,7 @@ function router() {
       <Routes>
         <Route path="/" element={<HeaderFooter />}>
           <Route index element={<Home />} />
-          <Route path="/about" element={<SignIn />} />
+          <Route path="/sign-in" element={<SignIn />} />
           <Route path="/about" element={<User />} />
         </Route>
       </Routes>
