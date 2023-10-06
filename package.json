@@ -24,6 +24,7 @@
     "server": "node ./server/server.js"
   },
   "devDependencies": {
+    "@types/mongoose": "^5.11.97",
     "nodemon": "^2.0.4"
   }
 }
