@@ -11,6 +11,8 @@ import User from './page/User/User';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 
+import "./main.css";
+
 function HeaderFooter() {
   return (
     <>
