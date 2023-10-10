@@ -6,7 +6,6 @@ import Home from './page/Home/Home';
 import SignIn from'./page/SignIn/SignIn';
 import User from './page/User/User';
 
-
 // Import Components
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';

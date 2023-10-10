@@ -24,7 +24,7 @@ function Header() {
       <div>
         {isLoggedIn ? (
           <button className="main-nav-item" onClick={handleSignOut}>
-            <i className="fa fa-user-circle"></i> Sign Out
+            <i className="fa fa-user-circle"></i>
           </button>
         ) : (
           <NavLink className="main-nav-item" to="/sign-in">
