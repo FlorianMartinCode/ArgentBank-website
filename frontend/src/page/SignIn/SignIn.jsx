@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function SignIn() {
   const [formData, setFormData] = useState({
@@ -6,12 +6,30 @@ function SignIn() {
     password: '',
   });
 
+  const [remember, setRemember] = useState(true);
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('email');
+    const savedPassword = localStorage.getItem('password');
+
+    if (savedEmail && savedPassword) {
+      setFormData({
+        email: savedEmail,
+        password: savedPassword,
+      });
+    }
+  }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
     });
+  };
+
+  const handleRememberChange = (e) => {
+    setRemember(e.target.checked);
   };
 
   const handleSignIn = async () => {
@@ -27,6 +45,15 @@ function SignIn() {
       const data = await response.json();
       const token = data.body.token;
       localStorage.setItem('token', token);
+
+      if (remember) {
+        localStorage.setItem('email', formData.email);
+        localStorage.setItem('password', formData.password);
+      } else {
+        localStorage.removeItem('email');
+        localStorage.removeItem('password');
+      }
+
       window.location.href = '/user';
     } else {
       alert('Identifiants incorrects.');
@@ -60,7 +87,12 @@ function SignIn() {
             />
           </div>
           <div className="input-remember">
-            <input type="checkbox" id="remember-me" />
+            <input
+              type="checkbox"
+              id="remember-me"
+              checked={remember}
+              onChange={handleRememberChange}
+            />
             <label htmlFor="remember-me">Remember me</label>
           </div>
           <button
