@@ -93,7 +93,12 @@ function SignIn() {
               checked={remember}
               onChange={handleRememberChange}
             />
-            <label htmlFor="remember-me">Remember me</label>
+            <label
+             htmlFor="remember-me"
+             onClick={(e) => e.preventDefault()}
+             >
+              Remember me
+            </label>
           </div>
           <button
             type="button"
