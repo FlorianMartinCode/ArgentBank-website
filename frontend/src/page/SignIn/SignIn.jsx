@@ -1,64 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from '../../redux/fetch/loginUser';
 
 function SignIn() {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const [remember, setRemember] = useState(true);
-
-  useEffect(() => {
-    const savedEmail = localStorage.getItem('email');
-    const savedPassword = localStorage.getItem('password');
-
-    if (savedEmail && savedPassword) {
-      setFormData({
-        email: savedEmail,
-        password: savedPassword,
-      });
-    }
-  }, []);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleRememberChange = (e) => {
-    setRemember(e.target.checked);
-  };
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const rememberRef = useRef(null);
 
   const handleSignIn = async () => {
-    const response = await fetch('http://localhost:3001/api/v1/user/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    const remember = rememberRef.current.checked;
 
-    if (response.ok) {
-      const data = await response.json();
-      const token = data.body.token;
-      localStorage.setItem('token', token);
+    try {
+      const response = await dispatch(loginUser({ email, password }));
 
-      if (remember) {
-        localStorage.setItem('email', formData.email);
-        localStorage.setItem('password', formData.password);
+      if (response && response.ok) {
+        navigate("/user");
       } else {
-        localStorage.removeItem('email');
-        localStorage.removeItem('password');
+        throw new Error("User not found");
       }
-
-      window.location.href = '/user';
-    } else {
-      alert('Identifiants incorrects.');
+    } catch (error) { 
     }
-  };
+
+    if (remember) {
+      localStorage.setItem('email', email);
+      localStorage.setItem('password', password);
+    } else {
+      localStorage.removeItem('email');
+      localStorage.removeItem('password');
+    }
+  }
+
+  useEffect(() => {
+    rememberRef.current.checked = true;
+  }, []);
 
   return (
     <main className="main bg-dark">
@@ -71,9 +51,7 @@ function SignIn() {
             <input
               type="text"
               id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
+              ref={emailRef}
             />
           </div>
           <div className="input-wrapper">
@@ -81,24 +59,17 @@ function SignIn() {
             <input
               type="password"
               id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
+              ref={passwordRef}
             />
           </div>
           <div className="input-remember">
             <input
               type="checkbox"
               id="remember-me"
-              checked={remember}
-              onChange={handleRememberChange}
+              ref={rememberRef}
+              defaultChecked={true}
             />
-            <label
-             htmlFor="remember-me"
-             onClick={(e) => e.preventDefault()}
-             >
-              Remember me
-            </label>
+            <label htmlFor="remember-me">Remember me</label>
           </div>
           <button
             type="button"
