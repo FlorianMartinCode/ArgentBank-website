@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import argentBankLogo from '../../assets/argentBankLogo.png';
-import { useDispatch, useSelector } from 'react-redux';
 
 function Header() {
-  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
-  const dispatch = useDispatch();
 
   const handleSignOut = () => {
-    dispatch({ type: "LOGOUT" });
+    setIsLoggedIn(false);
   };
 
   const isUserPage = location.pathname === '/user';
@@ -25,9 +23,9 @@ function Header() {
       </NavLink>
       <div>
         {isLoggedIn ? (
-          <NavLink className="main-nav-item" onClick={handleSignOut}>
-            <i className="fa fa-user-circle"></i> Sign Out
-          </NavLink>
+          <button className="main-nav-item" onClick={handleSignOut}>
+            <i className="fa fa-user-circle"></i>
+          </button>
         ) : (
           <NavLink className="main-nav-item" to="/sign-in">
             <i className="fa fa-user-circle"></i> {isUserPage ? 'Sign Out' : 'Sign In'}

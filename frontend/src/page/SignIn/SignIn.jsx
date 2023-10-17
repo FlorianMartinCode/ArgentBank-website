@@ -1,44 +1,37 @@
-import React, { useRef, useEffect } from 'react';
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { loginUser } from '../../redux/fetch/loginUser';
+import React, { useState } from 'react';
 
 function SignIn() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
 
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-  const rememberRef = useRef(null);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const handleSignIn = async () => {
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
-    const remember = rememberRef.current.checked;
+    const response = await fetch('http://localhost:3001/api/v1/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
 
-    try {
-      const response = await dispatch(loginUser({ email, password }));
-
-      if (response && response.ok) {
-        navigate("/user");
-      } else {
-        throw new Error("User not found");
-      }
-    } catch (error) { 
-    }
-
-    if (remember) {
-      localStorage.setItem('email', email);
-      localStorage.setItem('password', password);
+    if (response.ok) {
+      const data = await response.json();
+      const token = data.body.token;
+      localStorage.setItem('token', token);
+      window.location.href = '/user';
     } else {
-      localStorage.removeItem('email');
-      localStorage.removeItem('password');
+      alert('Identifiants incorrects.');
     }
-  }
-
-  useEffect(() => {
-    rememberRef.current.checked = true;
-  }, []);
+  };
 
   return (
     <main className="main bg-dark">
@@ -46,29 +39,28 @@ function SignIn() {
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
         <form>
-          <div className="input-wrapper">
+          <div className="input-wrapper"> {/* Ouvrez la div ici */}
             <label htmlFor="email">Email</label>
             <input
               type="text"
               id="email"
-              ref={emailRef}
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
             />
-          </div>
+          </div> {/* Fermez la div ici */}
           <div className="input-wrapper">
             <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
-              ref={passwordRef}
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
             />
           </div>
           <div className="input-remember">
-            <input
-              type="checkbox"
-              id="remember-me"
-              ref={rememberRef}
-              defaultChecked={true}
-            />
+            <input type="checkbox" id="remember-me" />
             <label htmlFor="remember-me">Remember me</label>
           </div>
           <button
