@@ -7,6 +7,7 @@ function Header() {
   const location = useLocation();
 
   const handleSignOut = () => {
+    localStorage.removeItem('token');
     setIsLoggedIn(false);
   };
 
@@ -23,11 +24,15 @@ function Header() {
       </NavLink>
       <div>
         {isLoggedIn ? (
-          <button className="main-nav-item" onClick={handleSignOut}>
-            <i className="fa fa-user-circle"></i>
-          </button>
+        <NavLink 
+          className="main-nav-item">
+          <i className="fa fa-user-circle"></i>
+        </NavLink>
         ) : (
-          <NavLink className="main-nav-item" to="/sign-in">
+          <NavLink 
+            className="main-nav-item" 
+            to="/sign-in" 
+            onClick={handleSignOut}>
             <i className="fa fa-user-circle"></i> {isUserPage ? 'Sign Out' : 'Sign In'}
           </NavLink>
         )}

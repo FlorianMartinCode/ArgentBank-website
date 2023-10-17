@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-// import loginReduccer from '../reducer/login';
+import profileReducer from "../reducer/profileUser";
 
 const store = configureStore ({
     reducer:{
-        // login: loginReduccer
+        profile: profileReducer,
     }
 })
 

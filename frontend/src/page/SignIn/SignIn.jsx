@@ -39,7 +39,7 @@ function SignIn() {
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
         <form>
-          <div className="input-wrapper"> {/* Ouvrez la div ici */}
+          <div className="input-wrapper">
             <label htmlFor="email">Email</label>
             <input
               type="text"
@@ -48,7 +48,7 @@ function SignIn() {
               value={formData.email}
               onChange={handleInputChange}
             />
-          </div> {/* Fermez la div ici */}
+          </div>
           <div className="input-wrapper">
             <label htmlFor="password">Password</label>
             <input
