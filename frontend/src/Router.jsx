@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes, Outlet} from "react-router-dom";
 // Import Pages
 import Home from './page/Home/Home';
 import SignIn from'./page/SignIn/SignIn';
-import User from './page/User/User';
+import Dashboard from './page/Dashboard/Dashboard';
 
 // Import Components
 import Header from './components/Header/Header';
@@ -31,7 +31,7 @@ function router() {
         <Route path="/" element={<HeaderFooter />}>
           <Route index element={<Home />} />
           <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/user" element={<User />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
     </BrowserRouter>

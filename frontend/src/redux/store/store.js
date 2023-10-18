@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import profileReducer from "../reducer/profileUser";
+import userReducer from "../reducer/userReducer";
 
 const store = configureStore ({
     reducer:{
-        profile: profileReducer,
+        profile: userReducer,
     }
 })
 

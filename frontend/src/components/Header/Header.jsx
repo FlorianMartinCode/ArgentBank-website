@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import React, { useState, useEffect} from 'react';
+import { NavLink, Link} from 'react-router-dom';
 import argentBankLogo from '../../assets/argentBankLogo.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { userAction } from '../../redux/actions/userAction';
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const location = useLocation();
+  const dispatch = useDispatch();
+  const userName = useSelector((state) => state.profile.userName);
 
   const handleSignOut = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
   };
-
-  const isUserPage = location.pathname === '/user';
+  
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true)
+      dispatch(userAction());
+    }
+  }, [dispatch]);
 
   return (
     <nav className="main-nav">
@@ -24,16 +33,27 @@ function Header() {
       </NavLink>
       <div>
         {isLoggedIn ? (
+          <>
         <NavLink 
+          to="/Dashboard"
           className="main-nav-item">
           <i className="fa fa-user-circle"></i>
+          {`${userName}`}
         </NavLink>
+        <Link
+        to="/sign-in" 
+        onClick={handleSignOut}>
+          <i className="fa fa-sign-out"></i>
+        Sign Out
+        </Link>
+        </>
         ) : (
           <NavLink 
             className="main-nav-item" 
-            to="/sign-in" 
-            onClick={handleSignOut}>
-            <i className="fa fa-user-circle"></i> {isUserPage ? 'Sign Out' : 'Sign In'}
+            to="/sign-in"
+            >
+            <i className="fa fa-user-circle"></i>
+            Sign In
           </NavLink>
         )}
       </div>

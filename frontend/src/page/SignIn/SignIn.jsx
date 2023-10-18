@@ -27,7 +27,7 @@ function SignIn() {
       const data = await response.json();
       const token = data.body.token;
       localStorage.setItem('token', token);
-      window.location.href = '/user';
+      window.location.href = '/Dashboard';
     } else {
       alert('Identifiants incorrects.');
     }

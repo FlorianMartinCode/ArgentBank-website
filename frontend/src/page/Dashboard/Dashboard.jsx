@@ -1,10 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-function User() {
+function Dashboard () {
+  const userName = useSelector((state) => state.profile.userName);
+
   return (
     <main className="main bg-dark">
       <div className="header">
-        <h1>Welcome back<br />Tony Jarvis!</h1>
+        <h1>Welcome back<br />{`${userName}`}</h1>
         <button className="edit-button">Edit Name</button>
       </div>
       <section className='account-content'>
@@ -43,4 +46,4 @@ function User() {
   )
 }
 
-export default User
+export default Dashboard
