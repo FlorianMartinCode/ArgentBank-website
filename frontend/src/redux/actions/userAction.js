@@ -17,9 +17,9 @@ export const userAction = () => async (dispatch) => {
     if (response.ok) {
       const data = await response.json() 
       .then (data => {
-          dispatch( setFirstName(data.body.firstName));
-          dispatch( setLastName(data.body.lastName));
-          dispatch( setUserName(data.body.userName));
+          dispatch(setFirstName(data.body.firstName));
+          dispatch(setLastName(data.body.lastName));
+          dispatch(setUserName(data.body.userName));
         })
       return data;
     } else {
