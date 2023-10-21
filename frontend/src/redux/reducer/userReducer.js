@@ -10,14 +10,14 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-      setFirstName: (state, {payload}) => {
-        state.firstName = payload
+      setFirstName: (state, action) => {
+        state.firstName = action.payload
       },
-      setLastName: (state, {payload}) => {
-        state.lastName = payload
+      setLastName: (state, action) => {
+        state.lastName = action.payload
       },
-      setUserName: (state, {payload}) => {
-        state.userName = payload
+      setUserName: (state, action) => {
+        state.userName = action.payload
       }
 }});
 
