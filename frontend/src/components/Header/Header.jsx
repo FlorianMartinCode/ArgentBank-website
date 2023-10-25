@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import argentBankLogo from '../../assets/argentBankLogo.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { userService } from '../../service/userService';
+import { setUser } from "../../redux/reducer/userReducer";
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -17,8 +18,14 @@ function Header() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      setIsLoggedIn(true)
-      dispatch(userService());
+      userService()(token)
+        .then(data => {
+          setIsLoggedIn(true);
+          dispatch(setUser(data.body));
+        })
+        .catch(error => {
+          console.error('Error fetching user profile:', error);
+        });
     }
   }, [dispatch]);
 

@@ -1,6 +1,4 @@
-import { setUser } from "../redux/reducer/userReducer";
-
-export const userService = () => async (dispatch) => {
+export const userService = () => async () => {
   const token = localStorage.getItem('token');
 
   try {
@@ -16,7 +14,6 @@ export const userService = () => async (dispatch) => {
 
     if (response.ok) {
         const data = await response.json();
-        dispatch(setUser(data.body));
         return data;
       } else {
         throw new Error('Error user not found!');
@@ -24,7 +21,7 @@ export const userService = () => async (dispatch) => {
     } catch (error) {
       console.error(error);
     }
-  };
+};
 
 export const editUserService = async (editedUserName, token) => {
     try {
