@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setFirstName, setLastName, setUserName } from '../../redux/reducer/userReducer';
+import { setUser } from '../../redux/reducer/userReducer';
 import EditForm from '../../components/editForm/editForm';
 
 function Dashboard() {
-  const userName = useSelector((state) => state.profile);
+  const { userName, firstName, lastName } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
   const [isEditing, setIsEditing] = useState(false);
@@ -14,11 +14,8 @@ function Dashboard() {
   };
 
   const handleSaveName = (editedValues) => {
-    dispatch(setUserName(editedValues.userName));
-    dispatch(setFirstName(editedValues.firstName));
-    dispatch(setLastName(editedValues.lastName));
-    
-
+    const { userName } = editedValues;
+    dispatch(setUser({ userName, firstName, lastName }));
     setIsEditing(false);
   };
 
@@ -29,7 +26,7 @@ function Dashboard() {
   return (
     <main className="main bg-dark">
       <div className="header">
-      <h1>Welcome back<br />{userName.userName}</h1>
+      <h1>Welcome back<br />{userName}</h1>
         {!isEditing ? (
           <button className="edit-button" onClick={handleEditClick}>
             Edit Name
@@ -38,7 +35,7 @@ function Dashboard() {
         }
       </div>
       {isEditing && (
-        <EditForm initialValues={userName} onSave={handleSaveName} onCancel={handleCancelEdit} />
+        <EditForm initialValues={{userName, firstName, lastName}} onSave={handleSaveName} onCancel={handleCancelEdit} />
       )}
       <section className='account-content'>
         <section className="account">

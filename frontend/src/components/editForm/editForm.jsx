@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-
-import { editUserAction } from '../../redux/actions/editUserAction';
+import { editUserService } from '../../service/userService';
 
 function EditForm({ initialValues, onSave, onCancel }) {
   const [editedUserName, setEditedUserName] = useState(initialValues.userName || '');
@@ -8,7 +7,7 @@ function EditForm({ initialValues, onSave, onCancel }) {
 
   const handleSaveClick = async () => {
     try {
-      await editUserAction(editedUserName, token);
+      await editUserService(editedUserName, token);
 
       onSave({
         userName: editedUserName,
@@ -38,7 +37,7 @@ function EditForm({ initialValues, onSave, onCancel }) {
       <div className="form-group">
         <label>First Name:</label>
         <input
-        className='input-not-allowed'
+          className='input-not-allowed'
           type="text"
           placeholder="First Name"
           value={initialValues.firstName || ''}
