@@ -7,36 +7,33 @@ function Dashboard() {
   const { userName, firstName, lastName } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
 
   const handleEditClick = () => {
-    setIsEditing(true);
+    setIsEditing(false);
   };
 
   const handleSaveName = (editedValues) => {
     const { userName } = editedValues;
     dispatch(setUser({ userName, firstName, lastName }));
-    setIsEditing(false);
+    setIsEditing(true);
   };
 
   const handleCancelEdit = () => {
-    setIsEditing(false);
+    setIsEditing(true);
   };
 
   return (
     <main className="main bg-dark">
       <div className="header">
       <h1>Welcome back<br />{userName}</h1>
-        {!isEditing ? (
+        {isEditing ? (
           <button className="edit-button" onClick={handleEditClick}>
             Edit Name
           </button>
-        ) : null
+        ) : <EditForm initialValues={{userName, firstName, lastName}} onSave={handleSaveName} onCancel={handleCancelEdit} />
         }
       </div>
-      {isEditing && (
-        <EditForm initialValues={{userName, firstName, lastName}} onSave={handleSaveName} onCancel={handleCancelEdit} />
-      )}
       <section className='account-content'>
         <section className="account">
           <div className="account-content-wrapper">
