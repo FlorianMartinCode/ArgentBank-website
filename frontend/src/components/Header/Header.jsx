@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import argentBankLogo from '../../assets/argentBankLogo.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { userService } from '../../service/userService';
@@ -9,15 +9,18 @@ function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const dispatch = useDispatch();
   const userName = useSelector((state) => state.profile.userName);
+  const location = useLocation();
 
   const handleSignOut = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
   };
+
   
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
+      setIsLoggedIn(true);
       userService()(token)
         .then(data => {
           setIsLoggedIn(true);
@@ -26,8 +29,8 @@ function Header() {
         .catch(error => {
           console.error('Error fetching user profile:', error);
         });
-    }
-  }, [dispatch]);
+    } 
+  }, [dispatch, location]);
 
   return (
     <nav className="main-nav">

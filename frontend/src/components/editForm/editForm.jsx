@@ -6,14 +6,23 @@ function EditForm({ initialValues, onSave, onCancel }) {
   const token = localStorage.getItem('token');
 
   const handleSaveClick = async () => {
-    try {
-      await editUserService(editedUserName, token);
+    if (!token) {
+      console.error('Token is missing. Please log in to edit the user.');
+      return;
+    }
 
-      onSave({
-        userName: editedUserName,
-        firstName: initialValues.firstName,
-        lastName: initialValues.lastName,
-      });
+    try {
+      const response = await editUserService(editedUserName, token);
+
+      if (response.status === 200) {
+        onSave({
+          userName: editedUserName,
+          firstName: initialValues.firstName,
+          lastName: initialValues.lastName,
+        });
+      } else {
+        console.error('Erreur lors de la mise à jour du userName', response);
+      }
     } catch (error) {
       console.error('Erreur lors de la mise à jour du userName', error);
     }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function SignIn() {
   const [formData, setFormData] = useState({
@@ -14,6 +15,8 @@ function SignIn() {
     });
   };
 
+  const navigate = useNavigate();
+
   const handleSignIn = async () => {
     const response = await fetch('http://localhost:3001/api/v1/user/login', {
       method: 'POST',
@@ -27,7 +30,7 @@ function SignIn() {
       const data = await response.json();
       const token = data.body.token;
       localStorage.setItem('token', token);
-      window.location.href = '/Dashboard';
+      navigate('/Dashboard')
     } else {
       alert('Identifiants incorrects.');
     }
