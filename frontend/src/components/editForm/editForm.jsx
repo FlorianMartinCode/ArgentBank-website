@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { editUserService } from '../../service/userService';
 
 function EditForm({ initialValues, onSave, onCancel }) {
-  const [editedUserName, setEditedUserName] = useState(initialValues.userName || '');
+  const [editedUserName, setEditedUserName] = useState(initialValues.userName);
   const token = localStorage.getItem('token');
 
   const handleSaveClick = async () => {
     if (!token) {
-      console.error('Token is missing. Please log in to edit the user.');
+      console.error('Le jeton est manquant. Veuillez vous connecter.');
       return;
     }
 
@@ -21,10 +21,10 @@ function EditForm({ initialValues, onSave, onCancel }) {
           lastName: initialValues.lastName,
         });
       } else {
-        console.error('Erreur lors de la mise à jour du userName', response);
+        throw new Error('Erreur lors de la mise à jour du userName');
       }
     } catch (error) {
-      console.error('Erreur lors de la mise à jour du userName', error);
+      console.error(error);
     }
   };
 
@@ -49,7 +49,7 @@ function EditForm({ initialValues, onSave, onCancel }) {
           className='input-not-allowed'
           type="text"
           placeholder="First Name"
-          value={initialValues.firstName || ''}
+          value={initialValues.firstName}
           readOnly
         />
       </div>
@@ -59,7 +59,7 @@ function EditForm({ initialValues, onSave, onCancel }) {
           className='input-not-allowed'
           type="text"
           placeholder="Last Name"
-          value={initialValues.lastName || ''}
+          value={initialValues.lastName}
           readOnly
         />
       </div>

@@ -15,7 +15,7 @@ function Dashboard() {
 
   const handleSaveName = (editedValues) => {
     const { userName } = editedValues;
-    dispatch(setUser({ userName }));
+    dispatch(setUser({ userName, firstName, lastName }));
     setIsEditing(true);
   };
 

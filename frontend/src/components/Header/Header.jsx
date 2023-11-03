@@ -20,17 +20,14 @@ function Header() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      setIsLoggedIn(true);
       userService()(token)
-        .then(data => {
+        .then((data) => {
           setIsLoggedIn(true);
           dispatch(setUser(data.body));
         })
-        .catch(error => {
-          console.error('Error fetching user profile:', error);
-        });
-    } 
+    }
   }, [dispatch, location]);
+  
 
   return (
     <nav className="main-nav">
