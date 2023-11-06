@@ -122,13 +122,13 @@ paths:
           schema:
             $ref: '#/definitions/Accounts'
         '400':
-          description: Bad Request
+          description: Bad request
         '401':
           description: Unauthorized
         '403':
           description: Forbidden
         '404':
-          description: Not Found
+          description: Not found
         '500':
           description: Internal server error
   /users/{id}/accounts:
@@ -151,7 +151,7 @@ paths:
           schema:
             $ref: '#/definitions/UserAccount'
         '400':
-          description: Invalid fields
+          description: Bad request
         '401':
           description: Unauthorized
         '403':
@@ -180,7 +180,7 @@ paths:
           schema:
             $ref: '#/definitions/Transactions'
         '400':
-          description: Invalid fields
+          description: Bad request
         '401':
           description: Unauthorized
         '403':
@@ -217,7 +217,7 @@ paths:
           schema:
             $ref: '#/definitions/Update'
         '400':
-          description: Invalid fields
+          description: Bad request
         '401':
           description: Unauthorized
         '403':
