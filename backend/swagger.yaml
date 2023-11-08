@@ -164,21 +164,61 @@ paths:
     get:
       tags:
         - Transactions Module
-      summary: Transactions d'un compte bancaire
-      description: Récupérer les transactions d'un compte bancaire (page transactions)
+      summary: Transactions filtrer par dates
+      description: Récupére les transactions d'un compte filtrer par dates
       parameters:
         - in: path
           name: id
-          description: ID du compte bancaire
+          description: ID du compte
+          required: true
+          type: string
+        - in: query
+          name: from
+          description: Date de début
+          required: true
+          type: string
+          format: date
+        - in: query
+          name: to
+          description: Date de fin 
+          required: true
+          type: string
+          format: date
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Transactions'
+        '400':
+          description: Requête incorrecte
+        '401':
+          description: Non autorisé
+        '403':
+          description: Interdit
+        '404':
+          description: Non trouvé
+        '500':
+          description: Erreur interne du serveur
+  /transactions/{id}:
+    get:
+      tags:
+        - Transactions Module
+      summary: Récupérer une transaction par ID
+      parameters:
+        - in: path
+          name: id
+          description: ID de la transaction
           required: true
           type: string
       produces:
         - application/json
       responses:
         '200':
-          description: Ok
+          description: OK
           schema:
-            $ref: '#/definitions/Transactions'
+            $ref: '#/definitions/Transaction'
         '400':
           description: Bad request
         '401':
@@ -189,7 +229,6 @@ paths:
           description: Not found
         '500':
           description: Internal server error
-  /transactions/{id}:
     put:
       tags:
         - Transactions Module
@@ -213,7 +252,7 @@ paths:
                 type: string
       responses:
         '200':
-          description: Ok
+          description: OK
           schema:
             $ref: '#/definitions/Update'
         '400':
@@ -226,7 +265,7 @@ paths:
           description: Not found
         '500':
           description: Internal server error
-          
+
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -316,6 +355,26 @@ definitions:
           type: string
         note: 
           type: string
+  Transaction:
+    type: object
+    properties:
+      id:
+        type: string
+      date:
+        type: string
+        format: date
+      description:
+        type: string
+      amount:
+        type: number
+      balance:
+        type: number
+      transactionType:
+        type: string
+      category:
+        type: string
+      note:
+        type: string
   Update:
     type: object
     properties:
